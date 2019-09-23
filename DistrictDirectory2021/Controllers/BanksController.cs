@@ -9,22 +9,22 @@ using DistrictDirectory2021.Models;
 
 namespace DistrictDirectory2021.Controllers
 {
-    public class MembersController : Controller
+    public class BanksController : Controller
     {
         private readonly DistrictDirectory2021Context _context;
 
-        public MembersController(DistrictDirectory2021Context context)
+        public BanksController(DistrictDirectory2021Context context)
         {
             _context = context;
         }
 
-        // GET: Members
+        // GET: Banks
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Member.ToListAsync());
+            return View(await _context.Bank.ToListAsync());
         }
 
-        // GET: Members/Details/5
+        // GET: Banks/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace DistrictDirectory2021.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Member
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (member == null)
+            var bank = await _context.Bank
+                .FirstOrDefaultAsync(m => m.id == id);
+            if (bank == null)
             {
                 return NotFound();
             }
 
-            return View(member);
+            return View(bank);
         }
 
-        // GET: Members/Create
+        // GET: Banks/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Members/Create
+        // POST: Banks/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,MiddleName,LastName,Email,Mobile")] Member member)
+        public async Task<IActionResult> Create([Bind("id,bank_name")] Bank bank)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(member);
+                _context.Add(bank);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(member);
+            return View(bank);
         }
 
-        // GET: Members/Edit/5
+        // GET: Banks/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace DistrictDirectory2021.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Member.FindAsync(id);
-            if (member == null)
+            var bank = await _context.Bank.FindAsync(id);
+            if (bank == null)
             {
                 return NotFound();
             }
-            return View(member);
+            return View(bank);
         }
 
-        // POST: Members/Edit/5
+        // POST: Banks/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,MiddleName,LastName,Email,Mobile")] Member member)
+        public async Task<IActionResult> Edit(int id, [Bind("id,bank_name")] Bank bank)
         {
-            if (id != member.Id)
+            if (id != bank.id)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace DistrictDirectory2021.Controllers
             {
                 try
                 {
-                    _context.Update(member);
+                    _context.Update(bank);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MemberExists(member.Id))
+                    if (!BankExists(bank.id))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace DistrictDirectory2021.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(member);
+            return View(bank);
         }
 
-        // GET: Members/Delete/5
+        // GET: Banks/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace DistrictDirectory2021.Controllers
                 return NotFound();
             }
 
-            var member = await _context.Member
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (member == null)
+            var bank = await _context.Bank
+                .FirstOrDefaultAsync(m => m.id == id);
+            if (bank == null)
             {
                 return NotFound();
             }
 
-            return View(member);
+            return View(bank);
         }
 
-        // POST: Members/Delete/5
+        // POST: Banks/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var member = await _context.Member.FindAsync(id);
-            _context.Member.Remove(member);
+            var bank = await _context.Bank.FindAsync(id);
+            _context.Bank.Remove(bank);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MemberExists(int id)
+        private bool BankExists(int id)
         {
-            return _context.Member.Any(e => e.Id == id);
+            return _context.Bank.Any(e => e.id == id);
         }
     }
 }
